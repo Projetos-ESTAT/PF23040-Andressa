@@ -52,8 +52,13 @@ colnames(cad_andressa) <- c("data_hora",
                                 "Pergunta_19"
 )
 
+#Retira linhas que tenha CTE e não possuo na pergunta 06, a pedido da cliente
+#Foi de 160 linhas para 107 linhas
+cad_andressa <- cad_andressa %>%
+  filter(!(Pergunta_06 %in% c("CTE", "Não possuo.")))
+
 #Estabelecendo Caminho para salvar os gráficos
-caminho_lucas <- "C:/Users/Cliente/Desktop/Projetos - ESTAT/PF23040-Andressa/resultados"
+caminho_lucas <- "resultados"
 
 #--------------------Distribuição de Socorristas e Não-Socorristas--------------
 
@@ -160,7 +165,7 @@ ggplot(contagemSegmento) +
   ) +
   labs(x = "Segmento", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10), limits=c(0, 100))+
+  scale_y_continuous(breaks = seq(from = 0, to = 70, by = 10), limits=c(0, 70))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-10.pdf"), width = 158, height = 93, units = "mm")
 
@@ -203,7 +208,7 @@ ggplot(pergunta01_12) +
   ) +
   labs(x = "Sexo", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))
+  scale_y_continuous(breaks = seq(from = 0, to = 40, by = 10), limits=c(0, 40))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-01-12.pdf"), width = 158, height = 93, units = "mm")
 
 
@@ -225,19 +230,17 @@ unique(vetor_pergunta_14)
 
 # Definir o vetor de lesao
 lesao <- c(
-  "Lesão ligamentar",
-  "Dor crônica na coluna",
-  "Estiramento muscular",
-  "Tendinite",
-  "Condromalácia patelar",
-  "Desgaste/dor articular",
-  "Degenerações do disco intervertebral",
-  "Lesão completa do ligamento do Escafóide-Semilunar no punho esquerdo",
+  "Lesão ligamentar",                                                     
+  "Estiramento muscular",                                                 
+  "Tendinite",                                                            
+  "Degenerações do disco intervertebral",                                 
+  "Dor crônica na coluna",                                                
+  "Desgaste/dor articular",                                               
+  "Lesão completa do ligamento do Escafóide-Semilunar no punho esquerdo", 
   "Hérnia inguinal (apesar de não estar incluído em musculoesqueléticas)",
-  "Inflamação do nervo ciático",
-  "Protrusão discal",
-  "Lombalgia",
-  "Fascite plantar"
+  "Protrusão discal",                                                     
+  "Lombalgia",                                                            
+  "Condromalácia patelar" 
 )
 
 # Inicializar um vetor para armazenar as contagens
@@ -245,10 +248,6 @@ contagens_lesao <- integer(length(lesao))
 
 
 # Loop for para contar as correspondências usando expressões regulares
-for (i in 1:length(lesao)) {
-  contagens_lesao[i] <- sum(sapply(pergunta14, function(x) length(grep(lesao[i], x, ignore.case = TRUE))))
-}
-
 for (i in 1:length(lesao)) {
   contagens_lesao[i] <- sum(sapply(pergunta14, function(x) str_detect(x, fixed(lesao[i]))))
 }
@@ -265,7 +264,7 @@ contagens_lesao_df <- data.frame(lesao = lesao, quantidade = contagens_lesao)
 
 
 contagens_lesao_df %>%
-  filter(quantidade > 1) %>%
+  # filter(quantidade > 2) %>%
   mutate(
     freq = quantidade/sum(quantidade)
   ) %>%
@@ -287,7 +286,7 @@ ggplot() +
   ) +
   labs(x = "Lesão", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))+
+  scale_y_continuous(breaks = seq(from = 0, to = 20, by = 5), limits=c(0, 20))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-14.pdf"), width = 158, height = 93, units = "mm")
@@ -336,7 +335,7 @@ ggplot(pergunta7_12) +
   ) +
   labs(x = "Pratica de Atividade Física", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10), limits=c(0, 100))
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-07-12.pdf"), width = 158, height = 93, units = "mm")
 
 
@@ -378,7 +377,7 @@ ggplot(pergunta_08_12) +
   ) +
   labs(x = "Treinamento para minimizar os riscos de lesões", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10), limits=c(0, 100))
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-08-12.pdf"), width = 158, height = 93, units = "mm")
 
 
@@ -403,6 +402,18 @@ colnames(pergunta05_12) <- c("Anos de Experiência",
                             "freq_relativa"
 )
 
+ordem_personalizada <- c(
+  "Menos de 1 ano",
+  "De 1 a 5 anos",
+  "De 6 a 10 anos",
+  "De 11 a 15 anos",
+  "De 16 a 20 anos",
+  "De 21 a 25 anos",
+  "De 26 a 30 anos"
+)
+
+pergunta05_12$`Anos de Experiência` <- factor(pergunta05_12$`Anos de Experiência`, levels = ordem_personalizada, ordered = TRUE)
+
 porcentagens <- str_c(pergunta05_12$freq_relativa, "%") %>% str_replace("\\.", ",")
 
 legendas <- str_squish(str_c(pergunta05_12$freq, " (", porcentagens, ")"))
@@ -410,6 +421,7 @@ legendas <- str_squish(str_c(pergunta05_12$freq, " (", porcentagens, ")"))
 ggplot(pergunta05_12) +
   aes(
     x = fct_reorder(`Anos de Experiência`, freq, .desc = T),
+    # x = `Anos de Experiência`,
     y = freq,
     fill = `Lesão musculoesquelética`,
     label = legendas
@@ -417,13 +429,15 @@ ggplot(pergunta05_12) +
   geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, hjust = 0,
-    size = 2.5,
-    angle = 40
+    vjust = -0.5, hjust = 0.4,
+    size = 2
+    # vjust = -0.5, hjust = 0,
+    # size = 2.5,
+    # angle = 40
   ) +
   labs(x = "Anos de Experiência na UR", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10), limits=c(0, 100))+
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-05-12.pdf"), width = 158, height = 93, units = "mm")
