@@ -420,8 +420,8 @@ legendas <- str_squish(str_c(pergunta05_12$freq, " (", porcentagens, ")"))
 
 ggplot(pergunta05_12) +
   aes(
-    x = fct_reorder(`Anos de Experiência`, freq, .desc = T),
-    # x = `Anos de Experiência`,
+    # x = fct_reorder(`Anos de Experiência`, freq, .desc = T),
+     x = `Anos de Experiência`,
     y = freq,
     fill = `Lesão musculoesquelética`,
     label = legendas
@@ -429,8 +429,8 @@ ggplot(pergunta05_12) +
   geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, hjust = 0.4,
-    size = 2
+    vjust = -0.5, hjust = 0.5,
+    size = 1.8
     # vjust = -0.5, hjust = 0,
     # size = 2.5,
     # angle = 40
