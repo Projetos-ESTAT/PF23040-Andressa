@@ -106,6 +106,7 @@ ggplot(pergunta04) +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 150, by = 50), limits=c(0, 150))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-04.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-04.png"), width = 158, height = 93, units = "mm")
 
 #-------------------quais segmentos ocorreram mais lesões----------------------
 #Pergunta 10
@@ -176,6 +177,7 @@ ggplot(contagemSegmento) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-10.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-10.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -188,6 +190,7 @@ class(cad_andressa$Pergunta_12)
 cad_andressa$Pergunta_01 <- as.factor(cad_andressa$Pergunta_01)
 cad_andressa$Pergunta_12 <- as.factor(cad_andressa$Pergunta_12)
 
+#166 OBSERVAÇÕES apenas 70 responderam sim a pergunta 12 e 96 disseram não. 
 pergunta01_12 <- cad_andressa %>% 
   select(Pergunta_01, Pergunta_12) %>% 
   filter(Pergunta_12 == 'Sim') %>% 
@@ -218,6 +221,7 @@ ggplot(pergunta01_12) +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-01-12.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-01-12.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -274,7 +278,7 @@ contagens_lesao_df <- data.frame(lesao = lesao, quantidade = contagens_lesao)
 
 
 contagens_lesao_df %>%
-   # filter(quantidade > 2) %>%
+  filter(quantidade > 2) %>%
   mutate(
     freq = quantidade/sum(quantidade)
   ) %>%
@@ -300,11 +304,7 @@ ggplot() +
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-14.pdf"), width = 158, height = 93, units = "mm")
-
-
-
-
-
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-14.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -350,7 +350,7 @@ ggplot(pergunta7_12) +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 70, by = 10), limits=c(0, 70))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-07-12.pdf"), width = 158, height = 93, units = "mm")
-
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-07-12.png"), width = 158, height = 93, units = "mm")
 
 #-----Relação entre o fato de já ter recebido treinamento e se já sofreu alguma lesão.-----
 #Pergunta 8) Você recebeu treinamento adequado para minimizar os riscos de lesões no serviço de 
@@ -392,6 +392,7 @@ ggplot(pergunta_08_12) +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 70, by = 10), limits=c(0, 70))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-08-12.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-08-12.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -443,7 +444,7 @@ ggplot(pergunta05_12) +
   geom_text(
     position = position_dodge(width = .9),
     vjust = -0.5, hjust = 0.5,
-    size = 1.8
+    size = 1.5
     # vjust = -0.5, hjust = 0,
     # size = 2.5,
     # angle = 40
@@ -454,6 +455,7 @@ ggplot(pergunta05_12) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-05-12.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-05-12.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -515,6 +517,7 @@ ggplot(pergunta_07_09) +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 70, by = 10), limits=c(0, 70))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-07-09.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-07-09.png"), width = 158, height = 93, units = "mm")
 
 
 
@@ -614,6 +617,7 @@ contagens_mov_desconf_df %>%
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   theme(axis.text.x = element_text(size = 7))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-11.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-11.png"), width = 158, height = 93, units = "mm")
 
   
 
@@ -644,7 +648,7 @@ pergunta_07_15 <- pergunta_07_15 %>%
     freq_relativa = freq %>% percent()
   )
 
-colnames(pergunta_07_15)[2] <- "Pratica de Atividade Física"
+colnames(pergunta_07_15)[2] <- "Prática de Atividade Física"
 
 porcentagens <- str_c(pergunta_07_15$freq_relativa, "%") %>% str_replace("\\.", ",")
 
@@ -654,7 +658,7 @@ ggplot(pergunta_07_15) +
   aes(
     x = fct_reorder(Pergunta_15, freq, .desc = T),
     y = freq,
-    fill = `Pratica de Atividade Física`,
+    fill = `Prática de Atividade Física`,
     label = legendas
   ) +
   geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
@@ -669,6 +673,6 @@ ggplot(pergunta_07_15) +
         legend.text = element_text(size = 8))
 
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.pdf"), width = 158, height = 93, units = "mm")
-
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 158, height = 93, units = "mm")
 
 
