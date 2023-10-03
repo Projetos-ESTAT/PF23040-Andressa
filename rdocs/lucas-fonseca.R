@@ -269,7 +269,20 @@ for (i in 1:length(lesao)) {
 # Criar um novo dataframe para exibir as contagens
 contagens_lesao_df <- data.frame(lesao = lesao, quantidade = contagens_lesao)
 
-
+contagens_lesao_df$lesao <- c("Lesão ligamentar",
+                                "Dor crônica na coluna",
+                                "Estiramento muscular",
+                                "Tendinite",
+                                "Condromalácia patelar",
+                                "Degenerações do disco intervertebral",
+                                "Desgaste articular",
+                                "Hérnia inguinal (apesar de não estar incluído em musculoesqueléticas)",
+                                "Protrusão discal",
+                                "Lombalgia",
+                                "Fascite plantar",
+                                "Síndrome do túnel do carpo",
+                                "Desconforto na lombar",
+                                "hérnia de disco")
 
 #Plotando gráfico
 
@@ -295,14 +308,17 @@ ggplot() +
   geom_bar(stat = "identity", fill = "#A11D21", width = 0.7) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, # hjust = .5,
-    size = 2.5
+    vjust = 0.2, hjust = -0.1,
+    size = 2.8
   ) +
   labs(x = "Lesão", y = "Frequência") +
-  theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 30, by = 5), limits=c(0, 30))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  theme(axis.text.x = element_text(size = 8))
+  theme_estat() +
+  coord_flip()+
+  scale_x_discrete(labels = wrap_format(13))+
+  scale_y_continuous(breaks = seq(from = 0, to = 30, by = 5), limits=c(0, 32))
+
+  # scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  # theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-14.pdf"), width = 158, height = 93, units = "mm")
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-14.png"), width = 158, height = 93, units = "mm")
 
@@ -568,12 +584,12 @@ contagens_mov_desconf_df <- data.frame(mov_desconf = mov_desconf, quantidade = c
 
 # Vetor com as abreviações correspondentes
 abreviacoes <- c(
-  "Maca/Prancha",
-  "Elevar/Transportar",
+  "Maca/ Prancha",
+  "Elevar/ Transportar",
   "Imobilização Cervical",
   "Imobilização de Membros",
   "RCP",
-  "Movimentações à Cavalero",
+  "Elevação à cavaleiro",
   "Ao realizar algum movimento de apoio do corpo da vitima dentro da UR.",
   "Durante o transporte de vítimas em prédios sem elevador.",
   "Muito tempo abaixado ou de joelhos",
@@ -609,13 +625,14 @@ contagens_mov_desconf_df %>%
   geom_bar(stat = "identity", fill = "#A11D21", width = 0.7) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, # hjust = .5,
+    vjust = -0.5, #hjust = 0.5,
     size = 3
   ) +
   labs(x = "Movimentos que Favorecem Dor/Desconforto", y = "Frequência") +
   theme_estat()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  theme(axis.text.x = element_text(size = 7))
+  scale_x_discrete(labels = wrap_format(13))
+  
+  
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-11.pdf"), width = 158, height = 93, units = "mm")
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-11.png"), width = 158, height = 93, units = "mm")
 
