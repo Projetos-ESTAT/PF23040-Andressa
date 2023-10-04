@@ -426,6 +426,7 @@ pergunta05_12 <- cad_andressa %>%
     freq_relativa = freq %>% percent()
   )
 
+
 colnames(pergunta05_12) <- c("Anos de Experiência", 
                             "Lesão musculoesquelética",
                             "freq",
@@ -448,6 +449,7 @@ porcentagens <- str_c(pergunta05_12$freq_relativa, "%") %>% str_replace("\\.", "
 
 legendas <- str_squish(str_c(pergunta05_12$freq, " (", porcentagens, ")"))
 
+
 ggplot(pergunta05_12) +
   aes(
     # x = fct_reorder(`Anos de Experiência`, freq, .desc = T),
@@ -459,17 +461,18 @@ ggplot(pergunta05_12) +
   geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, hjust = 0.5,
-    size = 1.5
+    vjust = 0.4, hjust = -0.08,
+    size = 2.5
     # vjust = -0.5, hjust = 0,
     # size = 2.5,
     # angle = 40
   ) +
   labs(x = "Anos de Experiência na UR", y = "Frequência") +
   theme_estat()+
-  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  theme(axis.text.x = element_text(size = 8))
+  coord_flip()+
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits=c(0, 50))
+  # scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  # theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-05-12.pdf"), width = 158, height = 93, units = "mm")
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-05-12.png"), width = 158, height = 93, units = "mm")
 
