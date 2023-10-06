@@ -147,6 +147,23 @@ contagens_segmento <- data.frame(segmento = segmentos, quantidade = contagens)
 #transformando em factor
 contagens_segmento$segmento <- as.factor(contagens_segmento$segmento)
 
+# #Redefinindo o vetor para dar um espacinho em algumas variaveis e o gráfico ficar menos pior
+# 
+# segmentos <- c(
+#   "Coluna cervical",
+#   "Coluna dorsal",
+#   "Coluna lombar",
+#   "Braço",
+#   "Antebraço",
+#   "Punho/mão",
+#   "Ombro",
+#   "Joelho",
+#   "Quadril",
+#   "Tornozelo/pé"
+# )
+# 
+# contagens_segmento$segmento <- segmentos
+
 #plotando o gráfico
 contagemSegmento <- contagens_segmento %>%
   filter(!is.na(segmento)) %>%
@@ -169,13 +186,13 @@ ggplot(contagemSegmento) +
   geom_text(
     position = position_dodge(width = .9),
     vjust = -0.5, # hjust = .5,
-    size = 2
+    size = 2.5
   ) +
   labs(x = "Segmento", y = "Frequência") +
   theme_estat()+
   scale_y_continuous(breaks = seq(from = 0, to = 100, by = 20), limits=c(0, 110))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  theme(axis.text.x = element_text(size = 8))
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) #+
+  # theme(axis.text.x = element_text(size = 8))
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-10.pdf"), width = 158, height = 93, units = "mm")
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-10.png"), width = 158, height = 93, units = "mm")
 
@@ -684,15 +701,22 @@ ggplot(pergunta_07_15) +
   geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
   geom_text(
     position = position_dodge(width = .9),
-    vjust = -0.5, hjust = 0.45,
-    size = 2
+    vjust = 0.4, hjust = -0.08,
+    size = 3
   ) +
   labs(x = "Histórico de Dores Antes de Trabalhar na UR", y = "Frequência") +
   theme_estat()+
-  theme(axis.text.x = element_text(size = 8),
-        legend.text = element_text(size = 8))
+  coord_flip()+
+  scale_x_discrete(labels = wrap_format(13))+
+  #guides(fill = guide_legend(nrow = 2))+
+  scale_y_continuous(breaks = seq(from = 0, to = 20, by = 5), limits=c(0, 20))
 
-ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.pdf"), width = 158, height = 93, units = "mm")
-ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 158, height = 93, units = "mm")
+  
+  #scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  #theme(axis.text.x = element_text(size = 8),
+         #legend.text = element_text(size = 9))
+
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.pdf"), width = 198, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 180, height = 93, units = "mm")
 
 
