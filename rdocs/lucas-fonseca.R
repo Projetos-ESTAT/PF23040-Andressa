@@ -720,3 +720,65 @@ ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.pdf"), width 
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 180, height = 93, units = "mm")
 
 
+#-----------------------Pergunta 15 com pergunta 16-----------------------------
+
+pergunta_16_15 <- cad_andressa %>% 
+  select(Pergunta_09, Pergunta_16, Pergunta_15) %>% 
+  filter(Pergunta_09 == "Sim"
+         , !is.na(Pergunta_15)
+         )
+
+#125 pessoas responderam Sim para a pergunta 09, entretanto 63 pessoas deixaram em branco a pergunta 15, restando então 62 observações para relacionar a pergunta 07 com a pergunta 15
+
+
+pergunta_16_15 <- pergunta_16_15 %>%
+  mutate(Pergunta_15 = case_when(
+    Pergunta_15 %>% str_detect("Sim. E piorou após atuar na UR.") ~ "Sim. Piorou após UR",
+    Pergunta_15 %>% str_detect("Sim. E manteve após atuar na UR.") ~ "Sim. Manteve após UR.",
+    Pergunta_15 %>% str_detect("Não possuía.") ~ "Não possuía.",
+    Pergunta_15 %>% str_detect("Não sei.") ~ "Não sei."
+  )) %>%
+  group_by(Pergunta_15, Pergunta_16) %>%
+  summarise(freq = n()) %>%
+  mutate(
+    freq_relativa = freq %>% percent()
+  )
+
+colnames(pergunta_16_15)[2] <- "Contribuição de Atividades Externas para a Dor ou Lesão"
+
+porcentagens <- str_c(pergunta_16_15$freq_relativa, "%") %>% str_replace("\\.", ",")
+
+legendas <- str_squish(str_c(pergunta_16_15$freq, " (", porcentagens, ")"))
+
+ggplot(pergunta_16_15) +
+  aes(
+    x = fct_reorder(Pergunta_15, freq, .desc = T),
+    y = freq,
+    fill = `Contribuição de Atividades Externas para a Dor ou Lesão`,
+    label = legendas
+  ) +
+  geom_col(position = position_dodge2(preserve = "single", padding = 0)) +
+  geom_text(
+    position = position_dodge(width = .9),
+    vjust = 0.4, hjust = -0.08,
+    size = 3
+  ) +
+  labs(x = "Histórico de Dores Antes de Trabalhar na UR", y = "Frequência") +
+  theme_estat()+
+  coord_flip()+
+  scale_x_discrete(labels = wrap_format(13))+
+  #guides(fill = guide_legend(nrow = 2))+
+  scale_y_continuous(breaks = seq(from = 0, to = 30, by = 5), limits=c(0, 30))+
+  theme(legend.text = element_text(size = 8),
+        legend.title = element_text(size = 9))
+  
+
+  
+
+
+#scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+#theme(axis.text.x = element_text(size = 8),
+#legend.text = element_text(size = 9))
+
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-16-15.pdf"), width = 158, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 180, height = 93, units = "mm")
