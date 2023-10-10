@@ -781,4 +781,4 @@ ggplot(pergunta_16_15) +
 #legend.text = element_text(size = 9))
 
 ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-16-15.pdf"), width = 158, height = 93, units = "mm")
-ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-15-07.png"), width = 180, height = 93, units = "mm")
+ggsave(filename = file.path(caminho_lucas, "colunas-uni-freq-16-15.png"), width = 158, height = 93, units = "mm")
